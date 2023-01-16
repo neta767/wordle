@@ -1,7 +1,7 @@
 import { REVEAL_TIME_MS } from "../../constants/settings";
 import { CharStatus } from "../../lib/server-requests";
 import classnames from "classnames";
-
+import "./Cell.css"
 type Props = {
   value?: string;
   status?: CharStatus;
