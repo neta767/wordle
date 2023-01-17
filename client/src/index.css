@@ -11,6 +11,7 @@
   --absent-cell-bg-color: theme("colors.slate.400");
   --correct-cell-bg-color: theme("colors.green.400");
   --present-cell-bg-color: theme("colors.yellow.400");
+  cursor: default;
 }
 
 .dark {
@@ -20,15 +21,3 @@
   --default-cell-text-color: theme("colors.white");
   --absent-cell-bg-color: theme("colors.slate.700");
 }
-
-svg.cursor-pointer {
-  transition: all var(--animation-speed-fast);
-}
-
-svg.cursor-pointer:hover {
-  transform: scale(1.2);
-}
-
-/*div {*/
-/*  cursor: default;*/
-/*}*/
