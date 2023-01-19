@@ -19,37 +19,37 @@ export const InfoModal = ({isOpen, handleClose}: Props) => {
                     value="W"
                     status="correct"
                 />
-                <Cell value="E" isCompleted={true}/>
-                <Cell value="A" isCompleted={true}/>
-                <Cell value="R" isCompleted={true}/>
-                <Cell value="Y" isCompleted={true}/>
+                <Cell value="E" isCompleted/>
+                <Cell value="A" isCompleted/>
+                <Cell value="R" isCompleted/>
+                <Cell value="Y" isCompleted/>
             </div>
             <p className="text-sm text-gray-500 dark:text-gray-300">
                 The letter W is in the word and in the correct spot.
             </p>
 
             <div className="mb-1 mt-4 flex justify-center">
-                <Cell value="P" isCompleted={true}/>
-                <Cell value="I" isCompleted={true}/>
+                <Cell value="P" isCompleted/>
+                <Cell value="I" isCompleted/>
                 <Cell
-                    isRevealing={true}
-                    isCompleted={true}
+                    isRevealing
+                    isCompleted
                     value="L"
                     status="present"
                 />
-                <Cell value="O" isCompleted={true}/>
-                <Cell value="T" isCompleted={true}/>
+                <Cell value="O" isCompleted/>
+                <Cell value="T" isCompleted/>
             </div>
             <p className="text-sm text-gray-500 dark:text-gray-300">
                 The letter L is in the word but in the wrong spot.
             </p>
 
             <div className="mb-1 mt-4 flex justify-center">
-                <Cell value="V" isCompleted={true}/>
-                <Cell value="A" isCompleted={true}/>
-                <Cell value="G" isCompleted={true}/>
-                <Cell isRevealing={true} isCompleted={true} value="U" status="absent"/>
-                <Cell value="E" isCompleted={true}/>
+                <Cell value="V" isCompleted/>
+                <Cell value="A" isCompleted/>
+                <Cell value="G" isCompleted/>
+                <Cell isRevealing isCompleted value="U" status="absent"/>
+                <Cell value="E" isCompleted/>
             </div>
             <p className="text-sm text-gray-500 dark:text-gray-300">
                 The letter U is not in the word in any spot.

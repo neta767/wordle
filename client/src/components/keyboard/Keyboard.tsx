@@ -23,6 +23,7 @@ export const Keyboard = ({
         }
     };
 
+    //useEffect because we want to listen when component finished to render
     useEffect(() => {
         const listener = (e: KeyboardEvent) => {
             if (e.code === "Backspace") {
@@ -35,6 +36,7 @@ export const Keyboard = ({
             }
         };
         window.addEventListener("keyup", listener);
+        //when component unmounts
         return () => {
             window.removeEventListener("keyup", listener);
         };

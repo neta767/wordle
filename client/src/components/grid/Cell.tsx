@@ -18,6 +18,7 @@ export const Cell = ({
                          isCompleted,
                          position = 0,
                      }: Props) => {
+    //isCompleted is true when row completed
     const isFilled = value && !isCompleted;
     const shouldReveal = isRevealing && isCompleted;
     const animationDelay = `${position * REVEAL_TIME_MS}ms`;
@@ -27,12 +28,12 @@ export const Cell = ({
             "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-600":
                 !status,
             "border-black dark:border-slate-100": value && !status,
-            "border-none shadowed text-white": status,
-            "absent bg-slate-400 dark:bg-slate-700 ":
+            "shadowed text-white": status,
+            "absent bg-slate-400 dark:bg-slate-700 border-slate-400 dark:border-slate-700":
                 status === "absent",
-            "correct bg-green-500":
+            "correct bg-green-500 border-green-500":
                 status === "correct",
-            "present bg-yellow-500":
+            "present bg-yellow-500 border-yellow-500":
                 status === "present",
             "cell-fill-animation": isFilled,
             "cell-reveal": shouldReveal,
