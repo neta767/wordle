@@ -6,7 +6,7 @@ describe('<Navbar />', () => {
         cy.mount(<Navbar userName='test' logout={() => {
         }} setIsInfoModalOpen={() => {
         }} setIsLoginModalOpen={() => {
-        }} setIsSettingsModalOpen={() => {
-        }}/>)
+        }} handleDarkMode={() => {
+        }} isDarkMode={true}/>)
     })
 })
