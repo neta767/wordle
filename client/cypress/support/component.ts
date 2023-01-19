@@ -22,6 +22,7 @@ import '../../src/index.css'
 import {mount} from 'cypress/react18'
 import {MountOptions, MountReturn} from "cypress/react";
 import {MemoryRouterProps} from "react-router-dom";
+import 'tailwindcss/tailwind.css'
 
 // Augment the Cypress namespace to include type definitions for
 // your custom command.
@@ -31,10 +32,10 @@ import {MemoryRouterProps} from "react-router-dom";
 declare global {
     namespace Cypress {
         interface Chainable {
-           mount(
-            component: React.ReactNode,
-            options?: MountOptions & { routerProps?: MemoryRouterProps }
-          ): Cypress.Chainable<MountReturn>
+            mount(
+                component: React.ReactNode,
+                options?: MountOptions & { routerProps?: MemoryRouterProps }
+            ): Cypress.Chainable<MountReturn>
         }
     }
 }

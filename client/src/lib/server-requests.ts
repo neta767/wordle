@@ -1,17 +1,6 @@
-export type CharStatus = "absent" | "present" | "correct";
+import {gameReq, gameRes} from "./types";
+
 const endpoint = "http://localhost:3333";
-
-export type gameReq = {
-    guesses: string[];
-    hashSolution: string;
-};
-
-export type gameRes = {
-    charStatuses: { [key: string]: CharStatus };
-    guessesStatuses: CharStatus[][];
-    isGameWon: boolean;
-    solution: string;
-};
 
 export async function updateGameStatus(
     gameReq: gameReq

@@ -10,11 +10,13 @@ import {
     saveGameStateToLocalStorage,
 } from "../lib/localStorage";
 import {
-    CharStatus,
-    gameReq,
     getHashSolution,
     updateGameStatus,
 } from "../lib/server-requests";
+import {
+    CharStatus,
+    gameReq,
+} from '../lib/types'
 import {AlertContainer} from "./alerts/AlertContainer";
 import {Grid} from "./grid/Grid";
 import {Keyboard} from "./keyboard/Keyboard";

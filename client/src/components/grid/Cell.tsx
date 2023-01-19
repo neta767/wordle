@@ -1,5 +1,5 @@
 import {REVEAL_TIME_MS} from "../../constants/settings";
-import {CharStatus} from "../../lib/server-requests";
+import {CharStatus} from "../../lib/types";
 import classnames from "classnames";
 import "./Cell.css"
 
@@ -28,11 +28,12 @@ export const Cell = ({
             "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-600":
                 !status,
             "border-black dark:border-slate-100": value && !status,
-            "absent shadowed bg-slate-400 dark:bg-slate-700 text-white border-slate-400 dark:border-slate-700":
+            "border-none shadowed text-white": status,
+            "absent bg-slate-400 dark:bg-slate-700 ":
                 status === "absent",
-            "correct shadowed bg-green-500 text-white border-green-500":
+            "correct bg-green-500":
                 status === "correct",
-            "present shadowed bg-yellow-500 text-white border-yellow-500":
+            "present bg-yellow-500":
                 status === "present",
             "cell-fill-animation": isFilled,
             "cell-reveal": shouldReveal,
@@ -40,7 +41,7 @@ export const Cell = ({
     );
 
     return (
-        <div data-cy='try' className={classes} style={{animationDelay}}>
+        <div data-cy='cell' className={classes} style={{animationDelay}}>
             <div className="letter-container" style={{animationDelay}}>
                 {value}
             </div>
