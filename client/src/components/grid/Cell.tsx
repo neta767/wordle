@@ -21,7 +21,6 @@ export const Cell = ({
     const isFilled = value && !isCompleted;
     const shouldReveal = isRevealing && isCompleted;
     const animationDelay = `${position * REVEAL_TIME_MS}ms`;
-
     const classes = classnames(
         "xxshort:w-11 xxshort:h-11 short:text-2xl short:w-12 short:h-12 w-14 h-14 border-solid border-2 flex items-center justify-center mx-0.5 text-4xl font-bold rounded dark:text-white",
         {
