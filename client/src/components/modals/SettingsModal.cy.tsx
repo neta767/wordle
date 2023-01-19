@@ -3,7 +3,8 @@ import {SettingsModal} from './SettingsModal'
 
 describe('<SettingsModal />', () => {
     it('renders', () => {
-        // see: https://on.cypress.io/mounting-react
-        // cy.mount(<SettingsModal />)
+        cy.mount(<SettingsModal isOpen={true} handleClose={() => {
+        }} handleDarkMode={() => {
+        }} isDarkMode={true}/>)
     })
 })
