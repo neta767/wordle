@@ -11,10 +11,10 @@ type Props = {
 
 export const BaseModal = ({title, children, isOpen, handleClose}: Props) => {
     return (
-        //Transition if for the animation
-        <Transition show={isOpen} as={Fragment}>
+        <Transition.Root show={isOpen} as={Fragment}>
             <Dialog
-                className="relative inset-0 z-10 overflow-y-auto"
+                as="div"
+                className="fixed inset-0 z-10 overflow-y-auto"
                 onClose={handleClose}
             >
                 <div className="flex min-h-full items-center justify-center py-10 px-4 text-center sm:p-0">
@@ -39,30 +39,33 @@ export const BaseModal = ({title, children, isOpen, handleClose}: Props) => {
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
-                        <div data-cy='base-modal'
-                             className="inline-block transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-gray-800 sm:my-8 sm:w-full sm:max-w-sm sm:p-6 sm:align-middle">
+                        <div
+                            data-cy='base-modal'
+                            className="inline-block transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-gray-800 sm:my-8 sm:w-full sm:max-w-sm sm:p-6 sm:align-middle">
                             <button
                                 data-cy='close-button'
-                                onClick={handleClose}
+                                onClick={() => handleClose()}
                                 tabIndex={0}
                                 aria-pressed="false"
                                 className="absolute right-4 top-4"
                             >
                                 <XCircleIcon className="h-6 w-6 cursor-pointer dark:stroke-white"/>
                             </button>
-                            <div data-cy='base-modal-body'
-                                 className="text-center">
-                                <Dialog.Title
-                                    className="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100"
-                                >
-                                    {title}
-                                </Dialog.Title>
-                                <div className="mt-2">{children}</div>
+                            <div>
+                                <div data-cy='base-modal-body' className="text-center">
+                                    <Dialog.Title
+                                        as="h3"
+                                        className="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100"
+                                    >
+                                        {title}
+                                    </Dialog.Title>
+                                    <div className="mt-2">{children}</div>
+                                </div>
                             </div>
                         </div>
                     </Transition.Child>
                 </div>
             </Dialog>
-        </Transition>
+        </Transition.Root>
     );
 };

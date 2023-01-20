@@ -1,5 +1,4 @@
 import App from "./App";
-import {AlertProvider} from "./context/AlertContext";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import React from "react";
@@ -11,9 +10,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <React.StrictMode>
-        <AlertProvider>
-            <App/>
-        </AlertProvider>
+        <App/>
     </React.StrictMode>
 );
 

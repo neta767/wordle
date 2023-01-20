@@ -16,6 +16,14 @@ describe('<LoginModal />', () => {
         cy.get("form").should('not.exist')
     })
 
+    it('should display with test input and submit input', () => {
+        cy.mount(<LoginModal handleLogin={() => {
+        }} handleClose={() => {
+        }} isOpen={true}/>);
+        cy.get('input[type="text"]').should('have.length', 1);
+        cy.get('input[type="submit"]').should('have.length', 1);
+    })
+
     it('should submits a form with the data', () => {
         cy.mount(<LoginModal handleLogin={cy.stub().as('submit')} handleClose={() => {
         }} isOpen={true}/>)

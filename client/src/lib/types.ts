@@ -11,3 +11,9 @@ export type gameRes = {
     isGameWon: boolean;
     solution: string;
 };
+
+export type alertProps = {
+    isOpen: boolean;
+    message: string;
+    variant: "success" | "error" | undefined;
+};

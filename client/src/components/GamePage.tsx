@@ -4,7 +4,6 @@ import {
     SOLUTION_LENGTH,
 } from "../constants/settings";
 import {CORRECT_WORD_MESSAGE, WIN_MESSAGES} from "../constants/strings";
-import {useAlert} from "../context/AlertContext";
 import {
     loadGameStateFromLocalStorage,
     saveGameStateToLocalStorage,
@@ -14,19 +13,19 @@ import {
     updateGameStatus,
 } from "../lib/server-requests";
 import {
+    alertProps,
     CharStatus,
     gameReq,
 } from '../lib/types'
-import {AlertContainer} from "./alerts/AlertContainer";
 import {Grid} from "./grid/Grid";
 import {Keyboard} from "./keyboard/Keyboard";
 import {InfoModal} from "./modals/InfoModal";
 import {useEffect, useState} from "react";
+import {Alert} from "./Alert";
 
 function GamePage() {
-    const {showError: showErrorAlert, showSuccess: showSuccessAlert} =
-        useAlert();
-    const [currentGuess, setCurrentGuess] = useState("");
+    const [alertProps, setAlertProps] = useState<alertProps>({isOpen: false, message: '', variant: undefined});
+
     const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
     const [isRevealing, setIsRevealing] = useState(false);
     const [isGameOver, setIsGameOver] = useState(false);
@@ -124,13 +123,19 @@ function GamePage() {
                 setIsRevealing(false);
             }, REVEAL_TIME_MS * SOLUTION_LENGTH);
             if (isGameWon) {
-                showSuccessAlert(
-                    WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)]
-                );
-                return setIsGameOver(true);
+                setTimeout(() => {
+                    setAlertMessage(WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)])
+                    setAlertStatus('success')
+                    setIsAlertVisible(true)
+                    return setIsGameOver(true);
+                }, REVEAL_TIME_MS * SOLUTION_LENGTH)
             } else if (guesses.length >= MAX_CHALLENGES - 1) {
-                showErrorAlert(CORRECT_WORD_MESSAGE(solution));
-                setIsGameOver(true);
+                setTimeout(() => {
+                    setAlertMessage(CORRECT_WORD_MESSAGE(solution))
+                    setAlertStatus('error')
+                    setIsAlertVisible(true)
+                    setIsGameOver(true);
+                }, REVEAL_TIME_MS * SOLUTION_LENGTH)
             }
         })
             .catch((e) => console.log(e));
@@ -152,6 +157,7 @@ function GamePage() {
 
     return (
         <div
+            data-cy='game-page'
             className="mx-auto flex w-full grow flex-col px-1 pt-2 pb-8 sm:px-6 md:max-w-7xl lg:px-8 short:pb-2 short:pt-2">
             <div className="flex grow flex-col justify-center pb-6 short:pb-2">
                 <Grid
@@ -171,7 +177,7 @@ function GamePage() {
                 isOpen={isInfoModalOpen}
                 handleClose={() => setIsInfoModalOpen(false)}
             />
-            <AlertContainer/>
+            <Alert {...alertProps}/>
         </div>
     );
 }
