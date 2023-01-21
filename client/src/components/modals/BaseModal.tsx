@@ -44,7 +44,10 @@ export const BaseModal = ({title, children, isOpen, handleClose}: Props) => {
                             className="inline-block transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-gray-800 sm:my-8 sm:w-full sm:max-w-sm sm:p-6 sm:align-middle">
                             <button
                                 data-cy='close-button'
-                                onClick={() => handleClose()}
+                                onClick={(event) => {
+                                    handleClose();
+                                    event.currentTarget.blur();
+                                }}
                                 tabIndex={0}
                                 aria-pressed="false"
                                 className="absolute right-4 top-4"

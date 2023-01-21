@@ -1,5 +1,6 @@
 import {CharStatus} from "../../lib/types";
 import {Cell} from "./Cell";
+import React from "react";
 
 type Props = {
     guess: string;
@@ -7,7 +8,7 @@ type Props = {
     guessStatuses: CharStatus[];
 };
 
-export const CompletedRow = ({guess, isRevealing, guessStatuses}: Props) => {
+export const CompletedRow = React.memo(function CompletedRow({guess, isRevealing, guessStatuses}: Props) {
     const splitGuess = guess.split("");
     return (
         <div data-cy='completed-row' className="mb-1 flex justify-center">
@@ -23,4 +24,4 @@ export const CompletedRow = ({guess, isRevealing, guessStatuses}: Props) => {
             ))}
         </div>
     );
-};
+});

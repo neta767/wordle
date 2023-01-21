@@ -2,6 +2,7 @@ import {REVEAL_TIME_MS} from "../../constants/settings";
 import {CharStatus} from "../../lib/types";
 import classnames from "classnames";
 import "./Cell.css"
+import React from "react";
 
 type Props = {
     value?: string;
@@ -11,13 +12,14 @@ type Props = {
     position?: number;
 };
 
-export const Cell = ({
-                         value,
-                         status,
-                         isRevealing,
-                         isCompleted,
-                         position = 0,
-                     }: Props) => {
+export const Cell = React.memo(function Cell({
+                                                 value,
+                                                 status,
+                                                 isRevealing,
+                                                 isCompleted,
+                                                 position = 0,
+                                             }: Props) {
+    console.log('hi');
     //isCompleted is true when row completed
     const isFilled = value && !isCompleted;
     const shouldReveal = isRevealing && isCompleted;
@@ -47,4 +49,4 @@ export const Cell = ({
             </div>
         </div>
     );
-};
+});

@@ -33,21 +33,36 @@ export const Navbar = ({
                     {userName ?
                         <>
                             <p data-cy='user-name' className="mr-3 font-bold dark:text-white">{userName}</p>
-                            <button data-cy='logout-button' onClick={logout}>
+                            <button data-cy='logout-button' onClick={(event) => {
+                                logout();
+                                event.currentTarget.blur();
+                            }}>
                                 <ArrowRightOnRectangleIcon className='cursor-pointer mr-3 h-6 w-6 dark:stroke-white'/>
                             </button>
                         </> :
-                        <button data-cy='login-button' onClick={() => setIsLoginModalOpen(true)}>
+                        <button data-cy='login-button' onClick={(event) => {
+                            setIsLoginModalOpen(true);
+                            event.currentTarget.blur();
+                        }}>
                             <ArrowLeftOnRectangleIcon className='cursor-pointer mr-3 h-6 w-6 dark:stroke-white'/>
                         </button>}
-                    <button data-cy='info-button' onClick={() => setIsInfoModalOpen(true)}>
+                    <button data-cy='info-button' onClick={(event) => {
+                        setIsInfoModalOpen(true);
+                        event.currentTarget.blur();
+                    }}>
                         <InformationCircleIcon className="cursor-pointer mr-3 h-6 w-6 dark:stroke-white"/>
                     </button>
                     {isDarkMode ?
-                        <button data-cy='light-button' onClick={() => handleDarkMode(!isDarkMode)}>
+                        <button data-cy='light-button' onClick={(event) => {
+                            handleDarkMode(!isDarkMode);
+                            event.currentTarget.blur();
+                        }}>
                             <MoonIcon className='cursor-pointer h-6 w-6 dark:stroke-white'/>
                         </button> :
-                        <button data-cy='dark-button' onClick={() => handleDarkMode(!isDarkMode)}>
+                        <button data-cy='dark-button' onClick={(event) => {
+                            handleDarkMode(!isDarkMode);
+                            event.currentTarget.blur();
+                        }}>
                             <SunIcon className='cursor-pointer h-6 w-6 dark:stroke-white'/>
                         </button>}
                 </div>

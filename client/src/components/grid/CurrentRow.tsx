@@ -1,14 +1,12 @@
 import {SOLUTION_LENGTH} from "../../constants/settings";
 import {Cell} from "./Cell";
-import {useState} from "react";
 
 type Props = {
     guess: string;
 };
 
 export const CurrentRow = ({guess}: Props) => {
-    const [currentGuess, setCurrentGuess] = useState("");
-    const splitGuess = currentGuess.split("");
+    const splitGuess = guess.split("");
     const emptyCells = Array.from(Array(SOLUTION_LENGTH - splitGuess.length));
 
     return (

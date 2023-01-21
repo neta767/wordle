@@ -25,8 +25,8 @@ import {Alert} from "./Alert";
 
 function GamePage() {
     const [alertProps, setAlertProps] = useState<alertProps>({isOpen: false, message: '', variant: undefined});
-
     const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+    const [currentGuess, setCurrentGuess] = useState("");
     const [isRevealing, setIsRevealing] = useState(false);
     const [isGameOver, setIsGameOver] = useState(false);
     const [charStatuses, setCharStatuses] = useState<{
@@ -124,16 +124,20 @@ function GamePage() {
             }, REVEAL_TIME_MS * SOLUTION_LENGTH);
             if (isGameWon) {
                 setTimeout(() => {
-                    setAlertMessage(WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)])
-                    setAlertStatus('success')
-                    setIsAlertVisible(true)
+                    setAlertProps({
+                        isOpen: true,
+                        message: WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)],
+                        variant: 'success'
+                    })
                     return setIsGameOver(true);
                 }, REVEAL_TIME_MS * SOLUTION_LENGTH)
             } else if (guesses.length >= MAX_CHALLENGES - 1) {
                 setTimeout(() => {
-                    setAlertMessage(CORRECT_WORD_MESSAGE(solution))
-                    setAlertStatus('error')
-                    setIsAlertVisible(true)
+                    setAlertProps({
+                        isOpen: true,
+                        message: CORRECT_WORD_MESSAGE(solution),
+                        variant: 'error'
+                    })
                     setIsGameOver(true);
                 }, REVEAL_TIME_MS * SOLUTION_LENGTH)
             }
