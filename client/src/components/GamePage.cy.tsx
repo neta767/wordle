@@ -1,5 +1,5 @@
 import React from 'react'
-import GamePage from './GamePage'
+import {GamePage} from "./GamePage";
 
 describe('<GamePage />', () => {
     it('renders', () => {

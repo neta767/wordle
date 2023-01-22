@@ -20,10 +20,10 @@ import {
 import {Grid} from "./grid/Grid";
 import {Keyboard} from "./keyboard/Keyboard";
 import {InfoModal} from "./modals/InfoModal";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Alert} from "./Alert";
 
-function GamePage() {
+export const GamePage = React.memo(function GamePage() {
     const [alertProps, setAlertProps] = useState<alertProps>({isOpen: false, message: '', variant: undefined});
     const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
     const [currentGuess, setCurrentGuess] = useState("");
@@ -184,6 +184,5 @@ function GamePage() {
             <Alert {...alertProps}/>
         </div>
     );
-}
+});
 
-export default GamePage;

@@ -1,11 +1,12 @@
 import {SOLUTION_LENGTH} from "../../constants/settings";
 import {Cell} from "./Cell";
+import React from "react";
 
 type Props = {
     guess: string;
 };
 
-export const CurrentRow = ({guess}: Props) => {
+export const CurrentRow = React.memo(function CurrentRow({guess}: Props) {
     const splitGuess = guess.split("");
     const emptyCells = Array.from(Array(SOLUTION_LENGTH - splitGuess.length));
 
@@ -19,4 +20,4 @@ export const CurrentRow = ({guess}: Props) => {
             ))}
         </div>
     );
-};
+});

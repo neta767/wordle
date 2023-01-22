@@ -10,7 +10,6 @@ function App() {
     ).matches;
     const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-    const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
     const [userName, setUserName] = useState(localStorage.getItem("userName"));
     //set dark mode as prefer from localstorage
     const [isDarkMode, setIsDarkMode] = useState(

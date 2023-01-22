@@ -1,6 +1,5 @@
 import React from 'react'
 import {Alert} from './Alert'
-import {Key} from "./keyboard/Key";
 
 describe('<Alert />', () => {
     it('should be open', () => {

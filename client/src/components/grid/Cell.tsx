@@ -19,7 +19,7 @@ export const Cell = React.memo(function Cell({
                                                  isCompleted,
                                                  position = 0,
                                              }: Props) {
-    console.log('hi');
+    console.log(value);
     //isCompleted is true when row completed
     const isFilled = value && !isCompleted;
     const shouldReveal = isRevealing && isCompleted;

@@ -1,7 +1,8 @@
 import {SOLUTION_LENGTH} from "../../constants/settings";
 import {Cell} from "./Cell";
+import React from "react";
 
-export const EmptyRow = () => {
+export const EmptyRow = React.memo(() => {
     const emptyCells = Array.from(Array(SOLUTION_LENGTH));
 
     return (
@@ -11,4 +12,4 @@ export const EmptyRow = () => {
             ))}
         </div>
     );
-};
+});

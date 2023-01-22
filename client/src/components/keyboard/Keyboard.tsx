@@ -1,6 +1,6 @@
 import {CharStatus} from "../../lib/types";
 import {Key} from "./Key";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 
 type Props = {
     onChar: (value: string) => void;
@@ -9,12 +9,12 @@ type Props = {
     charStatuses: { [key: string]: CharStatus };
 };
 
-export const Keyboard = ({
-                             onChar,
-                             onDelete,
-                             isRevealing,
-                             charStatuses,
-                         }: Props) => {
+export const Keyboard = React.memo(function Keyboard({
+                                                         onChar,
+                                                         onDelete,
+                                                         isRevealing,
+                                                         charStatuses,
+                                                     }: Props) {
     const onClick = (value: string) => {
         if (value === "Delete") {
             onDelete();
@@ -80,4 +80,4 @@ export const Keyboard = ({
             </div>
         </div>
     );
-};
+});

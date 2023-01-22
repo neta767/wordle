@@ -8,7 +8,6 @@ describe.skip('<AppRouter />', () => {
             <AppRouter userName={null}/>
         )
         cy.contains('Welcome').should('exist')
-
     })
 
     it('renders', () => {
@@ -19,6 +18,5 @@ describe.skip('<AppRouter />', () => {
                 },
             })
         cy.get("[data-cy='game-page']").should('exist')
-
     })
 })

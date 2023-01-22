@@ -3,6 +3,7 @@ import {CharStatus} from "../../lib/types";
 import {CompletedRow} from "./CompletedRow";
 import {CurrentRow} from "./CurrentRow";
 import {EmptyRow} from "./EmptyRow";
+import React from "react";
 
 type Props = {
     guesses: string[];
@@ -11,12 +12,12 @@ type Props = {
     guessesStatuses: CharStatus[][];
 };
 
-export const Grid = ({
-                         guesses,
-                         currentGuess,
-                         isRevealing,
-                         guessesStatuses,
-                     }: Props) => {
+export const Grid = React.memo(function Grid({
+                                                 guesses,
+                                                 currentGuess,
+                                                 isRevealing,
+                                                 guessesStatuses,
+                                             }: Props) {
     const empties =
         guesses.length < MAX_CHALLENGES - 1
             ? Array.from(Array(MAX_CHALLENGES - 1 - guesses.length))
@@ -38,4 +39,4 @@ export const Grid = ({
             ))}
         </>
     );
-};
+});
