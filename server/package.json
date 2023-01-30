@@ -5,11 +5,12 @@
   "scripts": {
     "start": "ts-node src",
     "dev": "tsnd --respawn src",
+    "fix": "prettier --write src",
+    "lint": "eslint src/**/*.ts",
     "build": "tsc",
     "test": "mocha -r ts-node/register src/**/*.test.ts"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.2",
     "@types/body-parser": "^1.19.2",
     "@types/chai": "^4.3.4",
     "@types/cors": "^2.8.13",
@@ -17,19 +18,25 @@
     "@types/mocha": "^10.0.1",
     "@types/node": "^18.11.17",
     "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/parser": "^5.49.0",
     "chai": "^4.3.7",
+    "eslint": "^8.33.0",
+    "eslint-config-standard-with-typescript": "^33.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
     "mocha": "^10.2.0",
     "supertest": "^6.3.3",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^4.9.4",
-    "prettier": "2.5.1"
+    "typescript": "^4.9.4"
   },
   "dependencies": {
-    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "prettier": "2.5.1"
   }
 }

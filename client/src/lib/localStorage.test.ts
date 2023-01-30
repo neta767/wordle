@@ -1,1 +1,1 @@
-import {} from './localStorage'
+import {} from "./localStorage";
