@@ -1,10 +1,8 @@
-import {CharStatus} from "./types";
+import {CharStatus, guess} from "./types";
 
 type StoredGameState = {
-    guesses: string[];
-    hashSolution: string;
-    charStatuses: { [key: string]: CharStatus };
-    guessesStatuses: CharStatus[][];
+    guesses: guess[];
+    keysStatuses: { [key: string]: CharStatus };
 };
 
 export const saveGameStateToLocalStorage = (gameState: StoredGameState) => {

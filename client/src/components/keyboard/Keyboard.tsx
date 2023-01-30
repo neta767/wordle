@@ -6,14 +6,14 @@ type Props = {
     onChar: (value: string) => void;
     onDelete: () => void;
     isRevealing?: boolean;
-    charStatuses: { [key: string]: CharStatus };
+    keysStatuses: { [key: string]: CharStatus };
 };
 
 export const Keyboard = React.memo(function Keyboard({
                                                          onChar,
                                                          onDelete,
                                                          isRevealing,
-                                                         charStatuses,
+                                                         keysStatuses,
                                                      }: Props) {
     const onClick = (value: string) => {
         if (value === "Delete") {
@@ -36,7 +36,7 @@ export const Keyboard = React.memo(function Keyboard({
             }
         };
         window.addEventListener("keyup", listener);
-        //when component unmounts
+        //when component unmounts we remove the event to clean
         return () => {
             window.removeEventListener("keyup", listener);
         };
@@ -50,7 +50,7 @@ export const Keyboard = React.memo(function Keyboard({
                         value={key}
                         key={key}
                         onClick={onClick}
-                        status={charStatuses[key]}
+                        status={keysStatuses[key]}
                         isRevealing={isRevealing}
                     />
                 ))}
@@ -61,7 +61,7 @@ export const Keyboard = React.memo(function Keyboard({
                         value={key}
                         key={key}
                         onClick={onClick}
-                        status={charStatuses[key]}
+                        status={keysStatuses[key]}
                         isRevealing={isRevealing}
                     />
                 ))}
@@ -72,7 +72,7 @@ export const Keyboard = React.memo(function Keyboard({
                         value={key}
                         key={key}
                         onClick={onClick}
-                        status={charStatuses[key]}
+                        status={keysStatuses[key]}
                         isRevealing={isRevealing}
                     />
                 ))}

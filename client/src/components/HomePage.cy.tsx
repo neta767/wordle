@@ -3,16 +3,6 @@ import HomePage from './HomePage'
 import {BrowserRouter as Router} from 'react-router-dom'
 
 describe('<HomePage />', () => {
-    it('renders', () => {
-        cy.mount(
-            <Router>
-                <HomePage userName={null}/>
-            </Router>
-        )
-        cy.contains('Start to play')
-        // .click().location('pathname').should('equal', '/game')
-    })
-
     it('should contain default greeting message and button', () => {
         cy.mount(
             <Router>

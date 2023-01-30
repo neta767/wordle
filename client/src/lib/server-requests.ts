@@ -14,7 +14,7 @@ export async function updateGameStatus(
         const url = `${endpoint}/game`;
         const response = await fetch(url, {method, headers, body});
         if (!response.ok) {
-            throw new Error(`Error! status: ${response.status}`);
+            return (`Error! status: ${response.status}`);
         }
         return (await response.json()) as gameRes;
     } catch (error) {
@@ -22,27 +22,6 @@ export async function updateGameStatus(
             return "error message: " + error.message;
         } else {
             return "unexpected error: " + error;
-        }
-    }
-}
-
-export async function getHashSolution(): Promise<string | void> {
-    try {
-        const method = "GET";
-        const headers = {
-            "content-type": "application/text",
-        };
-        const url = `${endpoint}/game`;
-        const response = await fetch(url, {method, headers});
-        if (!response.ok) {
-            throw new Error(`Error! status: ${response.status}`);
-        }
-        return await response.text();
-    } catch (error) {
-        if (error instanceof Error) {
-            return console.log("error message: " + error.message);
-        } else {
-            return console.log("unexpected error: " + error);
         }
     }
 }

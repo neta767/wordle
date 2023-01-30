@@ -19,7 +19,6 @@ export const Key = React.memo(function Key({
                                                isRevealing,
                                            }: Props) {
     const keyDelayMs = REVEAL_TIME_MS * SOLUTION_LENGTH;
-    // console.log(value)
     const classes = classnames(
         "xxshort:h-8 xxshort:w-8 xxshort:text-xxs xshort:w-10 xshort:h-10 flex short:h-12 h-14 items-center justify-center rounded mx-0.5 text-xs font-bold cursor-pointer select-none dark:text-white",
         {

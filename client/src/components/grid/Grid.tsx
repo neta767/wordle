@@ -1,22 +1,20 @@
 import {MAX_CHALLENGES} from "../../constants/settings";
-import {CharStatus} from "../../lib/types";
+import {guess} from "../../lib/types";
 import {CompletedRow} from "./CompletedRow";
 import {CurrentRow} from "./CurrentRow";
 import {EmptyRow} from "./EmptyRow";
 import React from "react";
 
 type Props = {
-    guesses: string[];
+    guesses: guess[];
     currentGuess: string;
     isRevealing?: boolean;
-    guessesStatuses: CharStatus[][];
 };
 
 export const Grid = React.memo(function Grid({
                                                  guesses,
                                                  currentGuess,
                                                  isRevealing,
-                                                 guessesStatuses,
                                              }: Props) {
     const empties =
         guesses.length < MAX_CHALLENGES - 1
@@ -30,7 +28,6 @@ export const Grid = React.memo(function Grid({
                     key={i}
                     guess={guess}
                     isRevealing={isRevealing && guesses.length - 1 === i}
-                    guessStatuses={guessesStatuses[i]}
                 />
             ))}
             {guesses.length < MAX_CHALLENGES && <CurrentRow guess={currentGuess}/>}

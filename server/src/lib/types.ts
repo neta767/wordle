@@ -1,25 +1,19 @@
 export type CharStatus = "absent" | "present" | "correct";
 
-export type char = {
+export type letter = {
     value: string;
     status: CharStatus;
 }
-export type guess = char[]
 
 export type gameReq = {
     guess: string;
     // for indication to send solution
-    isGameOver: boolean;
+    isGameOver: boolean
+
 }
 
 export type gameRes = {
-    guessStatus: char[];
+    guessStatus: letter[];
     //return only when game over
     solution?: string;
-};
-
-export type alertProps = {
-    isOpen: boolean;
-    message: string;
-    variant: "success" | "error" | undefined;
 };

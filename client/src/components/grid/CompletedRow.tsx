@@ -1,22 +1,20 @@
-import {CharStatus} from "../../lib/types";
+import {guess} from "../../lib/types";
 import {Cell} from "./Cell";
 import React from "react";
 
 type Props = {
-    guess: string;
+    guess: guess;
     isRevealing?: boolean;
-    guessStatuses: CharStatus[];
 };
 
-export const CompletedRow = React.memo(function CompletedRow({guess, isRevealing, guessStatuses}: Props) {
-    const splitGuess = guess.split("");
+export const CompletedRow = React.memo(function CompletedRow({guess, isRevealing}: Props) {
     return (
         <div data-cy='completed-row' className="mb-1 flex justify-center">
-            {splitGuess.map((letter, i) => (
+            {guess.map((letter, i) => (
                 <Cell
                     key={i}
-                    value={letter}
-                    status={guessStatuses[i]}
+                    value={letter.value}
+                    status={letter.status}
                     position={i}
                     isRevealing={isRevealing}
                     isCompleted

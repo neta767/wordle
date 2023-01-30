@@ -1,3 +1,5 @@
+import React, {useEffect, useState} from "react";
+
 import {
     MAX_CHALLENGES,
     REVEAL_TIME_MS,
@@ -9,57 +11,42 @@ import {
     saveGameStateToLocalStorage,
 } from "../lib/localStorage";
 import {
-    getHashSolution,
     updateGameStatus,
 } from "../lib/server-requests";
 import {
-    alertProps,
+    alertProps, char,
     CharStatus,
     gameReq,
+    guess
 } from '../lib/types'
 import {Grid} from "./grid/Grid";
 import {Keyboard} from "./keyboard/Keyboard";
 import {InfoModal} from "./modals/InfoModal";
-import React, {useEffect, useState} from "react";
 import {Alert} from "./Alert";
 
 export const GamePage = React.memo(function GamePage() {
     const [alertProps, setAlertProps] = useState<alertProps>({isOpen: false, message: '', variant: undefined});
     const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
-    const [currentGuess, setCurrentGuess] = useState("");
+    const [currentGuess, setCurrentGuess] = useState<string>('');
     const [isRevealing, setIsRevealing] = useState(false);
     const [isGameOver, setIsGameOver] = useState(false);
-    const [charStatuses, setCharStatuses] = useState<{
+    //run only the first time the component render
+    const [keysStatuses, setKeysStatuses] = useState<{
         [key: string]: CharStatus;
     }>(() => {
         const loaded = loadGameStateFromLocalStorage();
         if (!loaded) {
             return {};
         }
-        return loaded.charStatuses;
+        return loaded.keysStatuses;
     });
-    const [guessesStatuses, setGuessesStatuses] = useState<CharStatus[][]>(() => {
-        const loaded = loadGameStateFromLocalStorage();
-        if (!loaded) {
-            return [];
-        }
-        return loaded.guessesStatuses;
-    });
-    const [hashSolution, setHashSolution] = useState(() => {
-        const loaded = loadGameStateFromLocalStorage();
-        if (!loaded) {
-            return "";
-        }
-        return loaded.hashSolution;
-    });
-    const [guesses, setGuesses] = useState<string[]>(() => {
+    const [guesses, setGuesses] = useState<guess[]>(() => {
         const loaded = loadGameStateFromLocalStorage();
         if (!loaded) {
             return [];
         }
         return loaded.guesses;
     });
-
     useEffect(() => {
         // if no game state on load,
         // show the user the how-to info modal
@@ -67,14 +54,16 @@ export const GamePage = React.memo(function GamePage() {
             setTimeout(() => {
                 setIsInfoModalOpen(true);
             }, REVEAL_TIME_MS);
-            getHashSolution().then((value) => {
-                if (typeof value === "string") {
-                    setHashSolution(value);
-                }
-            })
-                .catch((e) => console.log(e));
-        } else if (hashSolution) {
-            updateGame(guesses);
+        } else
+            // show alert if needed when page been refreshed
+        if (guesses.length > 0) {
+            if (guesses[guesses.length - 1].every(l => l.status === 'correct')) {
+                showWinAlert()
+                setIsGameOver(true)
+            } else if (guesses.length === MAX_CHALLENGES) {
+                showLostAlert('Maybe next time')
+                setIsGameOver(true)
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -82,11 +71,9 @@ export const GamePage = React.memo(function GamePage() {
     useEffect(() => {
         saveGameStateToLocalStorage({
             guesses,
-            hashSolution,
-            guessesStatuses,
-            charStatuses,
+            keysStatuses,
         });
-    }, [charStatuses, guesses, guessesStatuses, hashSolution]);
+    }, [keysStatuses, guesses]);
 
     useEffect(() => {
         if (isGameOver) {
@@ -95,49 +82,40 @@ export const GamePage = React.memo(function GamePage() {
         if (currentGuess.length === SOLUTION_LENGTH) {
             console.log("Done");
             if (guesses.length < MAX_CHALLENGES) {
-                updateGame([...guesses, currentGuess]);
+                updateGame(currentGuess);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentGuess]);
 
-    const updateGame = (currenGuesses: string[]) => {
+    const updateGame = (currenGuesses: string) => {
         const dataReq: gameReq = {
-            guesses: currenGuesses,
-            hashSolution: hashSolution,
+            guess: currenGuesses,
+            isGameOver: guesses.length === MAX_CHALLENGES - 1
         };
 
         updateGameStatus(dataReq).then((dataRes) => {
             if (typeof dataRes === "string") {
                 return console.log(dataRes);
             }
-            const {charStatuses, guessesStatuses, isGameWon, solution} = dataRes;
-            setCharStatuses(charStatuses);
-            setGuessesStatuses(guessesStatuses);
-            setGuesses(currenGuesses);
+            const {guessStatus, solution} = dataRes;
+            setGuesses((preGuesses) => [...preGuesses, guessStatus])
+            setKeysStatuses(prevUsedKeys => updateKeys(prevUsedKeys, guessStatus))
             setCurrentGuess("");
             setIsRevealing(true);
-            // turn this back off after all
-            // chars have been revealed
+            // turn this back off after all keysStatuses have been revealed
             setTimeout(() => {
                 setIsRevealing(false);
             }, REVEAL_TIME_MS * SOLUTION_LENGTH);
-            if (isGameWon) {
+
+            if (guessStatus.every(l => l.status === 'correct')) {
                 setTimeout(() => {
-                    setAlertProps({
-                        isOpen: true,
-                        message: WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)],
-                        variant: 'success'
-                    })
-                    return setIsGameOver(true);
+                    setIsGameOver(() => true);
+                    showWinAlert()
                 }, REVEAL_TIME_MS * SOLUTION_LENGTH)
-            } else if (guesses.length >= MAX_CHALLENGES - 1) {
+            } else if (solution) {
                 setTimeout(() => {
-                    setAlertProps({
-                        isOpen: true,
-                        message: CORRECT_WORD_MESSAGE(solution),
-                        variant: 'error'
-                    })
+                    showLostAlert(CORRECT_WORD_MESSAGE(solution))
                     setIsGameOver(true);
                 }, REVEAL_TIME_MS * SOLUTION_LENGTH)
             }
@@ -145,6 +123,39 @@ export const GamePage = React.memo(function GamePage() {
             .catch((e) => console.log(e));
     };
 
+    const updateKeys = (prevUsedKeys: { [key: string]: CharStatus }, guessStatus: char[]) => {
+        guessStatus.forEach(l => {
+            const currentStatus = prevUsedKeys[l.value]
+
+            if (l.status === 'correct') {
+                prevUsedKeys[l.value] = 'correct'
+                return
+            }
+            if (l.status === 'present' && currentStatus !== 'correct') {
+                prevUsedKeys[l.value] = 'present'
+                return
+            }
+            if (l.status === 'absent' && currentStatus !== ('correct' || 'present')) {
+                prevUsedKeys[l.value] = 'absent'
+                return
+            }
+        })
+        return prevUsedKeys
+    }
+    const showWinAlert = () => {
+        setAlertProps({
+            isOpen: true,
+            message: WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)],
+            variant: 'success'
+        })
+    }
+    const showLostAlert = (message: string) => {
+        setAlertProps({
+            isOpen: true,
+            message,
+            variant: 'error'
+        })
+    }
     const onChar = (value: string) => {
         if (
             (currentGuess + value).length <= SOLUTION_LENGTH &&
@@ -168,14 +179,13 @@ export const GamePage = React.memo(function GamePage() {
                     guesses={guesses}
                     currentGuess={currentGuess}
                     isRevealing={isRevealing}
-                    guessesStatuses={guessesStatuses}
                 />
             </div>
             <Keyboard
                 onChar={onChar}
                 onDelete={onDelete}
                 isRevealing={isRevealing}
-                charStatuses={charStatuses}
+                keysStatuses={keysStatuses}
             />
             <InfoModal
                 isOpen={isInfoModalOpen}
