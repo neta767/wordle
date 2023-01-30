@@ -1,36 +1,36 @@
-import {expect} from 'chai'
-import {getGuessStatuses} from './statuses'
+import { expect } from 'chai';
+import { getGuessStatus } from './statuses';
 
-describe('getGuessStatuses', () => {
-    it('guess statuses', () => {
-        expect(getGuessStatuses('ABCDE', 'EDCBA')).to.be.deep.eq([
-            'present',
-            'present',
-            'correct',
-            'present',
-            'present',
-        ])
-        expect(getGuessStatuses('ABCDE', 'VWXYZ')).to.be.deep.eq([
-            'absent',
-            'absent',
-            'absent',
-            'absent',
-            'absent',
-        ])
-        expect(getGuessStatuses('ABCDE', 'ABCDE')).to.be.deep.eq([
-            'correct',
-            'correct',
-            'correct',
-            'correct',
-            'correct',
-        ])
+describe('getGuessStatus', () => {
+  it('guess statuses', () => {
+    expect(getGuessStatus('ABCDE', 'EDCBA')).to.be.deep.eq([
+      { value: 'A', status: 'present' },
+      { value: 'B', status: 'present' },
+      { value: 'C', status: 'correct' },
+      { value: 'D', status: 'present' },
+      { value: 'E', status: 'present' },
+    ]);
+    expect(getGuessStatus('ABCDE', 'VWXYZ')).to.be.deep.eq([
+      { value: 'A', status: 'absent' },
+      { value: 'B', status: 'absent' },
+      { value: 'C', status: 'absent' },
+      { value: 'D', status: 'absent' },
+      { value: 'E', status: 'absent' },
+    ]);
+    expect(getGuessStatus('ABCDE', 'ABCDE')).to.be.deep.eq([
+      { value: 'A', status: 'correct' },
+      { value: 'B', status: 'correct' },
+      { value: 'C', status: 'correct' },
+      { value: 'D', status: 'correct' },
+      { value: 'E', status: 'correct' },
+    ]);
 
-        expect(getGuessStatuses('BOSSY', 'SASSY')).to.be.deep.eq([
-            'absent',
-            'absent',
-            'correct',
-            'correct',
-            'correct',
-        ])
-    })
-})
+    expect(getGuessStatus('BOSSY', 'SASSY')).to.be.deep.eq([
+      { value: 'B', status: 'absent' },
+      { value: 'O', status: 'absent' },
+      { value: 'S', status: 'correct' },
+      { value: 'S', status: 'correct' },
+      { value: 'Y', status: 'correct' },
+    ]);
+  });
+});
