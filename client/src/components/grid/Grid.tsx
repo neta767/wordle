@@ -9,12 +9,14 @@ type Props = {
   guesses: guess[];
   currentGuess: string;
   isRevealing?: boolean;
+  currentRowClassName: string;
 };
 
 export const Grid = React.memo(function Grid({
   guesses,
   currentGuess,
   isRevealing,
+  currentRowClassName,
 }: Props) {
   const empties =
     guesses.length < MAX_CHALLENGES - 1
@@ -30,7 +32,9 @@ export const Grid = React.memo(function Grid({
           isRevealing={isRevealing && guesses.length - 1 === i}
         />
       ))}
-      {guesses.length < MAX_CHALLENGES && <CurrentRow guess={currentGuess} />}
+      {guesses.length < MAX_CHALLENGES && (
+        <CurrentRow guess={currentGuess} className={currentRowClassName} />
+      )}
       {empties.map((_, i) => (
         <EmptyRow key={i} />
       ))}

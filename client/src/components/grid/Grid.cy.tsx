@@ -19,18 +19,20 @@ const word2: guess = [
 ];
 describe("<Grid />", () => {
   it("should contains 6 rows", () => {
-    cy.mount(<Grid currentGuess="" guesses={[]} />);
+    cy.mount(<Grid currentGuess="" guesses={[]} currentRowClassName="" />);
     cy.get("[data-cy$=-row]").should("have.length", MAX_CHALLENGES);
   });
 
   it("should contains 1 current-row and 5 empty-row", () => {
-    cy.mount(<Grid currentGuess="TEST" guesses={[]} />);
+    cy.mount(<Grid currentGuess="TEST" guesses={[]} currentRowClassName="" />);
     cy.get("[data-cy=current-row]").should("have.length", 1);
     cy.get("[data-cy=empty-row]").should("have.length", 5);
   });
 
   it("should contains 2 completed-row, 1 current-row and 3 empty-row", () => {
-    cy.mount(<Grid currentGuess="" guesses={[word1, word2]} />);
+    cy.mount(
+      <Grid currentGuess="" guesses={[word1, word2]} currentRowClassName="" />
+    );
     cy.get("[data-cy=completed-row]").should("have.length", 2);
     cy.get("[data-cy=current-row]").should("have.length", 1);
     cy.get("[data-cy=empty-row]").should("have.length", 3);

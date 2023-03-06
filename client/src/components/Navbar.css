@@ -1,7 +1,7 @@
-svg.cursor-pointer {
-  transition: all var(--animation-speed-fast);
+svg.cursor-pointer, p {
+    transition: all var(--animation-speed-fast);
 }
 
-svg.cursor-pointer:hover {
-  transform: scale(1.2);
+svg.cursor-pointer:hover, p:hover {
+    transform: scale(1.2);
 }

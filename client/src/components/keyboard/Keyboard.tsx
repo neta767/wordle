@@ -5,6 +5,8 @@ import React, { useEffect } from "react";
 type Props = {
   onChar: (value: string) => void;
   onDelete: () => void;
+  onEnter: () => void;
+
   isRevealing?: boolean;
   keysStatuses: { [key: string]: CharStatus };
 };
@@ -12,11 +14,14 @@ type Props = {
 export const Keyboard = React.memo(function Keyboard({
   onChar,
   onDelete,
+  onEnter,
   isRevealing,
   keysStatuses,
 }: Props) {
   const onClick = (value: string) => {
-    if (value === "Delete") {
+    if (value === "Enter") {
+      onEnter();
+    } else if (value === "Delete") {
       onDelete();
     } else {
       onChar(value);
@@ -26,7 +31,9 @@ export const Keyboard = React.memo(function Keyboard({
   //useEffect because we want to listen when component finished to render
   useEffect(() => {
     const listener = (e: KeyboardEvent) => {
-      if (e.code === "Backspace") {
+      if (e.code === "Enter") {
+        onEnter();
+      } else if (e.code === "Backspace") {
         onDelete();
       } else {
         const key = e.key.toUpperCase();
@@ -40,7 +47,7 @@ export const Keyboard = React.memo(function Keyboard({
     return () => {
       window.removeEventListener("keyup", listener);
     };
-  }, [onDelete, onChar]);
+  }, [onEnter, onDelete, onChar]);
 
   return (
     <div>
@@ -67,6 +74,7 @@ export const Keyboard = React.memo(function Keyboard({
         ))}
       </div>
       <div className="flex justify-center">
+        <Key width={65.4} value="Enter" onClick={onClick} />
         {["Z", "X", "C", "V", "B", "N", "M"].map((key) => (
           <Key
             value={key}

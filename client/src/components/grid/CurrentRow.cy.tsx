@@ -4,11 +4,11 @@ import { SOLUTION_LENGTH } from "../../constants/settings";
 
 describe("<CurrentRow />", () => {
   it("should contains 5 cells", () => {
-    cy.mount(<CurrentRow guess="TEST" />);
+    cy.mount(<CurrentRow guess="TEST" className="" />);
     cy.get("[data-cy='cell']").should("have.length", SOLUTION_LENGTH);
   });
   it("should display cells with the correct value and correspondingly style", () => {
-    cy.mount(<CurrentRow guess="TEST" />);
+    cy.mount(<CurrentRow guess="TEST" className="" />);
     cy.get("[data-cy='current-row']").within(() => {
       cy.get("[data-cy='cell']")
         .eq(0)

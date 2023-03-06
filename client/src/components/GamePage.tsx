@@ -5,7 +5,12 @@ import {
   REVEAL_TIME_MS,
   SOLUTION_LENGTH,
 } from "../constants/settings";
-import { CORRECT_WORD_MESSAGE, WIN_MESSAGES } from "../constants/strings";
+import {
+  CORRECT_WORD_MESSAGE,
+  NOT_ENOUGH_LETTERS_MESSAGE,
+  WIN_MESSAGES,
+  WORD_NOT_FOUND_MESSAGE,
+} from "../constants/strings";
 import {
   loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
@@ -24,9 +29,10 @@ export const GamePage = React.memo(function GamePage() {
     variant: undefined,
   });
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
-  const [currentGuess, setCurrentGuess] = useState<string>("");
+  const [currentGuess, setCurrentGuess] = useState("");
   const [isRevealing, setIsRevealing] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [currentRowClass, setCurrentRowClass] = useState("");
   //run only the first time the component render
   const [keysStatuses, setKeysStatuses] = useState<{
     [key: string]: CharStatus;
@@ -44,6 +50,8 @@ export const GamePage = React.memo(function GamePage() {
     }
     return loaded.guesses;
   });
+  // const [stats, setStats] = useState(() => loadStats())
+
   useEffect(() => {
     // if no game state on load,
     // show the user the how-to info modal
@@ -71,19 +79,6 @@ export const GamePage = React.memo(function GamePage() {
       keysStatuses,
     });
   }, [keysStatuses, guesses]);
-
-  useEffect(() => {
-    if (isGameOver) {
-      return;
-    }
-    if (currentGuess.length === SOLUTION_LENGTH) {
-      console.log("Done");
-      if (guesses.length < MAX_CHALLENGES) {
-        updateGame(currentGuess);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentGuess]);
 
   const updateGame = (currenGuesses: string) => {
     const dataReq: gameReq = {
@@ -159,6 +154,21 @@ export const GamePage = React.memo(function GamePage() {
       variant: "error",
     });
   };
+  const showErrorAlert = (message: string) => {
+    setCurrentRowClass("jiggle");
+    setAlertProps({
+      isOpen: true,
+      message: WORD_NOT_FOUND_MESSAGE,
+      variant: "error",
+    });
+    setTimeout(() => {
+      return setAlertProps({
+        isOpen: false,
+        message: "",
+        variant: undefined,
+      });
+    }, 1000);
+  };
   const onChar = (value: string) => {
     if (
       (currentGuess + value).length <= SOLUTION_LENGTH &&
@@ -172,6 +182,19 @@ export const GamePage = React.memo(function GamePage() {
   const onDelete = () => {
     setCurrentGuess(currentGuess.split("").slice(0, -1).join(""));
   };
+  const onEnter = () => {
+    if (isGameOver) {
+      return;
+    }
+    if (currentGuess.length !== SOLUTION_LENGTH) {
+      showErrorAlert(NOT_ENOUGH_LETTERS_MESSAGE);
+    } else if (guesses.length < MAX_CHALLENGES) {
+      updateGame(currentGuess);
+      // if (!isWordInWordList(currentGuess)) {
+      showErrorAlert(WORD_NOT_FOUND_MESSAGE);
+      // }
+    }
+  };
 
   return (
     <div
@@ -183,11 +206,13 @@ export const GamePage = React.memo(function GamePage() {
           guesses={guesses}
           currentGuess={currentGuess}
           isRevealing={isRevealing}
+          currentRowClassName={currentRowClass}
         />
       </div>
       <Keyboard
         onChar={onChar}
         onDelete={onDelete}
+        onEnter={onEnter}
         isRevealing={isRevealing}
         keysStatuses={keysStatuses}
       />

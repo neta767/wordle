@@ -4,14 +4,17 @@ import React from "react";
 
 type Props = {
   guess: string;
+    className: string
 };
 
-export const CurrentRow = React.memo(function CurrentRow({ guess }: Props) {
+export const CurrentRow = React.memo(function CurrentRow({ guess,className }: Props) {
   const splitGuess = guess.split("");
   const emptyCells = Array.from(Array(SOLUTION_LENGTH - splitGuess.length));
+    const classes = `flex justify-center mb-1 ${className}`
+
 
   return (
-    <div data-cy="current-row" className="mb-1 flex justify-center">
+    <div data-cy="current-row" className={classes}>
       {splitGuess.map((letter, i) => (
         <Cell key={i} value={letter} />
       ))}

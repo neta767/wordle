@@ -1,4 +1,4 @@
-export type CharStatus = "absent" | "present" | "correct";
+export type CharStatus = 'absent' | 'present' | 'correct';
 
 export type char = {
   value: string;
@@ -18,8 +18,15 @@ export type gameRes = {
   solution?: string;
 };
 
+export type loginReq = {
+  email: string;
+  password: string;
+};
+
+export type loginRes = {};
+
 export type alertProps = {
   isOpen: boolean;
   message: string;
-  variant: "success" | "error" | undefined;
+  variant: 'success' | 'error' | undefined;
 };

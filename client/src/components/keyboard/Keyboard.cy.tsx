@@ -3,7 +3,12 @@ import { Keyboard } from "./Keyboard";
 describe("<Keyboard />", () => {
   it("should contains 27 keys", () => {
     cy.mount(
-      <Keyboard onChar={() => {}} keysStatuses={{}} onDelete={() => {}} />
+      <Keyboard
+        onChar={() => {}}
+        keysStatuses={{}}
+        onDelete={() => {}}
+        onEnter={() => {}}
+      />
     );
     cy.get("button").should("have.length", 27);
   });
@@ -14,6 +19,7 @@ describe("<Keyboard />", () => {
         onChar={() => {}}
         keysStatuses={{ T: "correct" }}
         onDelete={() => {}}
+        onEnter={() => {}}
       />
     );
     cy.contains("T").should("have.css", "background-color", "rgb(34, 197, 94)");
@@ -22,7 +28,12 @@ describe("<Keyboard />", () => {
   it("should send value when key pressed", () => {
     const handleChar = cy.spy().as("onChar");
     cy.mount(
-      <Keyboard onChar={handleChar} keysStatuses={{}} onDelete={() => {}} />
+      <Keyboard
+        onChar={handleChar}
+        keysStatuses={{}}
+        onDelete={() => {}}
+        onEnter={() => {}}
+      />
     );
     cy.document("button").trigger("keyup", { key: "T" });
     cy.get("@onChar").should("have.been.calledWith", "T");
@@ -31,7 +42,12 @@ describe("<Keyboard />", () => {
   it("should send value when key clicked", () => {
     const handleChar = cy.spy().as("onChar");
     cy.mount(
-      <Keyboard onChar={handleChar} keysStatuses={{}} onDelete={() => {}} />
+      <Keyboard
+        onChar={handleChar}
+        keysStatuses={{}}
+        onDelete={() => {}}
+        onEnter={() => {}}
+      />
     );
     cy.contains("T").click();
     cy.get("@onChar").should("have.been.calledWith", "T");
@@ -40,7 +56,12 @@ describe("<Keyboard />", () => {
   it("should not send value when invalid key presses", () => {
     const handleChar = cy.spy().as("onChar");
     cy.mount(
-      <Keyboard onChar={handleChar} keysStatuses={{}} onDelete={() => {}} />
+      <Keyboard
+        onChar={handleChar}
+        keysStatuses={{}}
+        onDelete={() => {}}
+        onEnter={() => {}}
+      />
     );
     cy.document("button").trigger("keyup", { key: "א" });
     cy.get("@onChar").should("not.to.have.been.called", "א");
@@ -49,7 +70,12 @@ describe("<Keyboard />", () => {
   it("should called onDelete when Backspace pressed", () => {
     const handleDelete = cy.spy().as("onDelete");
     cy.mount(
-      <Keyboard onChar={() => {}} keysStatuses={{}} onDelete={handleDelete} />
+      <Keyboard
+        onChar={() => {}}
+        keysStatuses={{}}
+        onDelete={handleDelete}
+        onEnter={() => {}}
+      />
     );
     cy.document("button").trigger("keyup", { code: "Backspace" });
     cy.get("@onDelete").should("be.called");
@@ -58,7 +84,12 @@ describe("<Keyboard />", () => {
   it("should called onDelete when Delete clicked", () => {
     const handleDelete = cy.spy().as("onDelete");
     cy.mount(
-      <Keyboard onChar={() => {}} keysStatuses={{}} onDelete={handleDelete} />
+      <Keyboard
+        onChar={() => {}}
+        keysStatuses={{}}
+        onDelete={handleDelete}
+        onEnter={() => {}}
+      />
     );
     cy.contains("Delete").click();
     cy.get("@onDelete").should("be.called");

@@ -1,67 +1,71 @@
-import AppRouter from "./AppRouter";
-import { Navbar } from "./components/Navbar";
-import { InfoModal } from "./components/modals/InfoModal";
-import { LoginModal } from "./components/modals/LoginModal";
-import { useEffect, useState } from "react";
+import { Navbar } from './components/Navbar';
+import { InfoModal } from './components/modals/InfoModal';
+import { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import HomePage from './components/HomePage';
+import { LoginPage } from './components/LoginPage';
+import { GamePage } from './components/GamePage';
+
 
 function App() {
   const prefersDarkMode = window.matchMedia(
-    "(prefers-color-scheme: dark)"
+    '(prefers-color-scheme: dark)'
   ).matches;
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [userName, setUserName] = useState(localStorage.getItem("userName"));
+  const [userName, setUserName] = useState(localStorage.getItem('userName'));
   //set dark mode as prefer from localstorage
   const [isDarkMode, setIsDarkMode] = useState(
-    localStorage.getItem("theme")
-      ? localStorage.getItem("theme") === "dark"
+    localStorage.getItem('theme')
+      ? localStorage.getItem('theme') === 'dark'
       : prefersDarkMode
   );
-
+  const [childKey, setChildKey] = useState(0);
   useEffect(() => {
     if (isDarkMode) {
-      document.documentElement.classList.add("dark");
+      document.documentElement.classList.add('dark');
     } else {
-      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.remove('dark');
     }
   }, [isDarkMode]);
 
   const handleDarkMode = (isDark: boolean) => {
     setIsDarkMode(isDark);
-    localStorage.setItem("theme", isDark ? "dark" : "light");
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
   };
 
   const logout = () => {
-    localStorage.removeItem("userName");
+    localStorage.removeItem('userName');
     setUserName(null);
   };
 
   function handleLogin(name: string) {
-    localStorage.setItem("userName", name);
+    localStorage.setItem('userName', name);
     setUserName(name);
   }
 
   return (
-    <div className="flex h-full flex-col">
-      <Navbar
-        setIsInfoModalOpen={setIsInfoModalOpen}
-        setIsLoginModalOpen={setIsLoginModalOpen}
-        logout={logout}
-        userName={userName}
-        isDarkMode={isDarkMode}
-        handleDarkMode={handleDarkMode}
-      />
-      <AppRouter userName={userName} />
-      <InfoModal
+    <BrowserRouter>
+
+      <div className='flex h-full flex-col'>
+        <Navbar
+          setIsInfoModalOpen={setIsInfoModalOpen}
+          setIsLoginModalOpen={setIsLoginModalOpen}
+          logout={logout}
+          userName={userName}
+          isDarkMode={isDarkMode}
+          handleDarkMode={handleDarkMode}
+        />
+        <Routes>
+          <Route path='/' element={<HomePage userName={userName} />} />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/game' element={<GamePage />} />
+        </Routes> <InfoModal
         isOpen={isInfoModalOpen}
         handleClose={() => setIsInfoModalOpen(false)}
       />
-      <LoginModal
-        isOpen={isLoginModalOpen}
-        handleClose={() => setIsLoginModalOpen(false)}
-        handleLogin={(name: string) => handleLogin(name)}
-      />
-    </div>
+      </div>
+    </BrowserRouter>
   );
 }
 
